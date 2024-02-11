@@ -23,8 +23,13 @@ async function dbConnect(){
 
 dbConnect();
 
-
 // start of routes - will need to migrate to a seperate file eventually
+
+app.get('/', (req, res) => { 
+  res.send('Hello Heroku!'); 
+}); 
+
+
 app.get('/search-books', async (req, res) => {
     try {
       const searchTerm = req.query.searchTerm;
