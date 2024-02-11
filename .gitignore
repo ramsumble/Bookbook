@@ -1,2 +1,4 @@
-node_modules
+node_modules*
 test_api.js
+notes
+.env
