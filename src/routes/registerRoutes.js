@@ -7,7 +7,6 @@ router.post('/', async (req, res) => {
         const { username, email, password } = req.body;
         const user = new UserModel({ username, email, password });
         await user.save();
-        console.log("1")
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error('Registration error:', error);
