@@ -7,7 +7,8 @@ const bookSchema = new mongoose.Schema({
     description: { type: String },
     yearPublished: { type: Number },
     genre: { type: String },
-    pageCount: {type: Number }
+    pageCount: {type: Number },
+    image: { type: String }
 });
 
 const BookModel = mongoose.model('Book', bookSchema);
