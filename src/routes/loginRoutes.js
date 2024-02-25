@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const secretKey = process.env.SECRET_KEY // || 'something-key';
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email });
