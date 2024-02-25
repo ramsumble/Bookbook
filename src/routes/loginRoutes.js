@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
         const user = await UserModel.findOne({ email });
 
         if (user && await user.comparePassword(password)) {
+            console.log('Secret Key:', secretKey);
             const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
             res.json({ token });
         } else {
