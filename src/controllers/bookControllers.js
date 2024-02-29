@@ -25,9 +25,25 @@ async function searchAndSaveBooks(searchTerm) {
   });
 
     // const savedBooks = await BookModel.create(bookDataFromApi); //remove later when we store only selected books from front end
+  const savedBooks = await Promise.all(bookDataFromApi.map(async (bookData) => {
+    const existingBook = await BookModel.findOne({ title: bookData.title, author: bookData.author });
 
-    // return savedBooks;
-    return bookDataFromApi;
+    if (existingBook) {
+        // If the book already exists return the id
+        return existingBook._id;
+        
+    } else {
+        // create the book and return id
+        const newBook = await BookModel.create(bookData);
+        return newBook._id;
+    }
+  }));
+
+  // Update the users collection with the new book ids
+  await UserModel.findByIdAndUpdate(userId, { $push: { bookCollection: { $each: savedBooks } } });
+
+  return savedBooks;    
+  // return bookDataFromApi;
 
   } catch (error) {
     console.error('Error searching and saving books:', error);
