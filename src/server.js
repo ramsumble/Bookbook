@@ -10,12 +10,13 @@ app.use(express.json()); //used to parse json data
 const searchBook = require('./routes/bookRoutes')
 const registerRoute = require('./routes/registerRoutes')
 const loginRoute = require('./routes/loginRoutes')
-
+const addBookRoute = require('./routes/addToCollectionRoutes')
 
 // use the routes
 app.use('/books', searchBook)
 app.use('/api/register', registerRoute);
 app.use('/api/login', loginRoute);
+app.use('/api/addBook', addBookRoute);
 
 // need to seperate public routes and private routes eventually
 
