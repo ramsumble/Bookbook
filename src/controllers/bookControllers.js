@@ -1,5 +1,6 @@
 const axios = require('axios');
 const BookModel = require('../models/bookModels');
+const UserModel = require('../models/userModels');
 
 // search for books based on the search term
 async function searchAndSaveBooks(searchTerm) {
