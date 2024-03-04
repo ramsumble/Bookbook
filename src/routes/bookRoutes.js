@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { searchAndSaveBooks } = require('../controllers/bookControllers');
-const authenticateUser = require('../controllers/authControllers')
+const { authenticateUser } = require('../controllers/authControllers')
 
 
 router.get('/search-books', authenticateUser, async (req, res) => {
