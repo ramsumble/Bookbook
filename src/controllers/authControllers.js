@@ -6,6 +6,8 @@ const secretKey = process.env.SECRET_KEY // || 'something-key';
 const authenticateUser = (req, res, next) => {
     const token = req.headers.authorization;
 
+    console.log('Token is: ', token);
+
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized: Token not provided' });
     }
