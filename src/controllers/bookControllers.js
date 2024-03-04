@@ -3,9 +3,8 @@ const BookModel = require('../models/bookModels');
 const UserModel = require('../models/userModels');
 
 // search for books based on the search term
-async function searchAndSaveBooks(userId, searchTerm) {
+async function searchAndSaveBooks(searchTerm) {
     try {
-        console.log('Request URL:', 'https://www.googleapis.com/books/v1/volumes', { params: { q: searchTerm } }); //debugging
         const response = await axios.get('https://www.googleapis.com/books/v1/volumes', { 
             params: { q: searchTerm },
     });
