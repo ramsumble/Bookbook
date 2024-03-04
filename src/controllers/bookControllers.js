@@ -5,6 +5,7 @@ const UserModel = require('../models/userModels');
 // search for books based on the search term
 async function searchAndSaveBooks(userId, searchTerm) {
     try {
+        console.log('Request URL:', 'https://www.googleapis.com/books/v1/volumes', { params: { q: searchTerm } }); //debugging
         const response = await axios.get('https://www.googleapis.com/books/v1/volumes', { 
             params: { q: searchTerm },
     });
@@ -12,6 +13,7 @@ async function searchAndSaveBooks(userId, searchTerm) {
     // get the book data from the response 
     // const bookDataFromApi = response.data.items.map(item => item.volumeInfo);
     const bookDataFromApi = response.data.items.map(item => {
+      console.log('Google Books API Response:', response.data); //debugging
       const volumeInfo = item.volumeInfo;
       return {
           title: volumeInfo.title,
@@ -26,24 +28,25 @@ async function searchAndSaveBooks(userId, searchTerm) {
   });
 
     // const savedBooks = await BookModel.create(bookDataFromApi); //remove later when we store only selected books from front end
-  const savedBooks = await Promise.all(bookDataFromApi.map(async (bookData) => {
-    const existingBook = await BookModel.findOne({ title: bookData.title, author: bookData.author });
+  // const savedBooks = await Promise.all(bookDataFromApi.map(async (bookData) => {
+  //   const existingBook = await BookModel.findOne({ title: bookData.title, author: bookData.author });
 
-    if (existingBook) {
-        // If the book already exists return the id
-        return existingBook._id;
+  //   if (existingBook) {
+  //       // If the book already exists return the id
+  //       return existingBook._id;
         
-    } else {
-        // create the book and return id
-        const newBook = await BookModel.create(bookData);
-        return newBook._id;
-    }
-  }));
+  //   } else {
+  //       // create the book and return id
+  //       const newBook = await BookModel.create(bookData);
+  //       return newBook._id;
+  //   }
+  // }));
+    return bookDataFromApi;
 
   // Update the users collection with the new book ids
-  await UserModel.findByIdAndUpdate(userId, { $push: { bookCollection: { $each: savedBooks } } });
+  // await UserModel.findByIdAndUpdate(userId, { $push: { bookCollection: { $each: savedBooks } } });
 
-  return savedBooks;    
+  // return savedBooks;    
   // return bookDataFromApi;
 
   } catch (error) {
