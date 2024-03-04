@@ -10,7 +10,7 @@ router.get('/search-books', authenticateUser, async (req, res) => {
       const userId = req.userId; // accessing userId 
   
       const savedBooks = await searchAndSaveBooks(userId, searchTerm);
-      res.json(savedBooks, userId);
+      res.json(savedBooks);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
