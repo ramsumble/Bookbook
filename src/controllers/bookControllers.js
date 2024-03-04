@@ -31,12 +31,12 @@ async function searchAndSaveBooks(userId, searchTerm) {
 
     if (existingBook) {
         // If the book already exists return the id
-        return existingBook._id;
+        return existingBook;
         
     } else {
         // create the book and return id
         const newBook = await BookModel.create(bookData);
-        return newBook._id;
+        return newBook;
     }
   }));
 
