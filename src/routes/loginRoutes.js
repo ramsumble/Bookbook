@@ -13,9 +13,11 @@ router.post('/', async (req, res) => {
         const user = await UserModel.findOne({ email });
 
         if (user && await user.comparePassword(password)) {
-            // console.log('Secret Key:', secretKey);
-            const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-            res.json({ token });
+            // store userId
+            const userId = user._id;
+            // generate token
+            const token = jwt.sign({ userId }, secretKey, { expiresIn: '1h' });
+            res.json({ token, userId });
         } else {
             res.status(401).json({ error: 'Invalid email or password' });
         }
