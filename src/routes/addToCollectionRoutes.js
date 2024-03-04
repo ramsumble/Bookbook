@@ -2,7 +2,7 @@ const express = require('express');
 const UserModel = require('../models/userModels');
 const router = express.Router();
 
-router.post('/add-to-collection', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { userId, bookData } = req.body;
 
