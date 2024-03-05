@@ -52,4 +52,22 @@ async function searchAndSaveBooks(userId, searchTerm) {
   }
 }
 
-module.exports = { searchAndSaveBooks };
+// function to retrieve the books in users collections
+async function getUserBookCollection(userId) {
+  try {
+    // we can use populate to reference documents from another collection
+    const user = await UserModel.findById(userId).populate('bookCollection'); 
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user.bookCollection;
+  } catch (error) {
+    console.error('Error getting user book collection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
+
+module.exports = { searchAndSaveBooks, getUserBookCollection };
