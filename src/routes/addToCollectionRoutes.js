@@ -16,6 +16,11 @@ router.post('/', async (req, res) => {
         if (!user.bookCollection) {
             user.bookCollection = [];
         }
+        
+        // check if the book data is valid
+        if (!bookData || !bookData._id) {
+            return res.status(400).json({ error: 'Invalid book data' });
+          }
 
         // Check if the book already exists 
         const existingBook = user.bookCollection.find(bookId => bookId.equals(bookData._id));
