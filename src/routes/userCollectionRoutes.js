@@ -3,7 +3,7 @@ const router = express.Router();
 const { getUserBookCollection } = require('../controllers/bookControllers');
 const { authenticateUser } = require('../controllers/authControllers')
 
-  router.get('/user-collection', authenticateUser, async (req, res) => {
+  router.get('/', authenticateUser, async (req, res) => {
     try {
       const userId = req.userId; 
   
