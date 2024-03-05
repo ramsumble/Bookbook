@@ -13,6 +13,10 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        if (!user.bookCollection) {
+            user.bookCollection = [];
+        }
+
         // Check if the book already exists 
         const existingBook = user.bookCollection.find(bookId => bookId.equals(bookData._id));
 
