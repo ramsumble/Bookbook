@@ -41,7 +41,7 @@ async function searchAndSaveBooks(userId, searchTerm) {
   }));
 
   // Update the users collection with the new book ids
-  await UserModel.findByIdAndUpdate(userId, { $push: { bookCollection: { $each: savedBooks } } });
+  // await UserModel.findByIdAndUpdate(userId, { $push: { bookCollection: { $each: savedBooks } } });
 
   return savedBooks;    
   // return bookDataFromApi;
