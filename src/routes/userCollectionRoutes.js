@@ -9,7 +9,7 @@ const { authenticateUser } = require('../controllers/authControllers')
       const userBookCollection = await getUserBookCollection(userId);
 
       // logging to check contents of book collection 
-      console.log('User Book Collection:', userBookCollection);
+    //   console.log('User Book Collection:', userBookCollection);
 
       res.json(userBookCollection);
     } catch (error) {
