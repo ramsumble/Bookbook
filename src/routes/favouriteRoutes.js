@@ -4,15 +4,34 @@ const UserModel = require('../models/userModels');
 
 router.post('/', async (req, res) => {
     try {
-        const { userId, bookId } = req.body;
+        const { userId, bookData } = req.body;
 
         const user = await UserModel.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        // copy same logic for collectionRoute
+
+        if (!user.favourites) {
+            user.favourites = [];
+        }
+
+        // Check if the book data is valid
+        if (!bookData || !bookData.title || !bookData.author) {
+            console.error('Invalid book data:', bookData);
+            return res.status(400).json({ error: 'Invalid book data' });
+        }
+
+        // Check if the book already exists in the user's collection
+        const existingBook = user.favourites.find(bookId => bookId.equals(bookData._id));
+
+        if (existingBook) {
+            return res.status(400).json({ error: 'Book already in the collection' }); // handle this with toastify later
+        }
+
         // Add the book to the user's favorites
-        user.favourites.push(bookId);
+        user.favourites.push(bookData);
         await user.save();
 
         res.json({ message: 'Book added to favorites successfully' });
