@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
         }
 
         // Add the book to the user's favorites
-        user.favourites.push(bookData);
+        user.favourites.push(bookData._id);
         await user.save();
 
         res.json({ message: 'Book added to favorites successfully' });
