@@ -22,9 +22,15 @@ router.post('/', async (req, res) => {
             console.error('Invalid book data:', bookData);
             return res.status(400).json({ error: 'Invalid book data' });
         }
+        
+        console.log('User ID:', userId);
+        console.log('Book Data:', bookData);
+        console.log('Existing Favorites:', user.favourites);
 
         // Check if the book already exists in the user's collection
-        const existingBook = user.favourites.find(bookId => bookId.equals(bookData._id));
+        const existingBook = user.favourites.find(bookId => bookId && bookId.equals(bookData._id));
+
+        concole.log(existingBook)
 
         if (existingBook) {
             return res.status(400).json({ error: 'Book already in the collection' }); // handle this with toastify later
