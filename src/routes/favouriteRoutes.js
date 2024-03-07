@@ -24,6 +24,9 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Invalid book data' });
         }
 
+        console.log('bookId:', bookId);
+        console.log('bookData._id:', bookData._id);
+
         // Check if the book already exists in the user's collection
         const existingBook = user.favourites.find(bookId => bookId.equals(bookData._id));
 
