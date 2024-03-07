@@ -13,6 +13,7 @@ const loginRoute = require('./routes/loginRoutes')
 const addBookRoute = require('./routes/addToCollectionRoutes')
 const userBookRoute = require('./routes/userCollectionRoutes')
 const favRoute = require('./routes/favouriteRoutes')
+const readingRoute = require('./routes/addToReadingRoutes')
 
 // use the routes
 app.use('/books', searchBook)
@@ -21,6 +22,7 @@ app.use('/api/login', loginRoute);
 app.use('/api/addBook', addBookRoute);
 app.use('/api/userCollection', userBookRoute);
 app.use('/api/favCollection', favRoute);
+app.use('/api/readingCollection', readingRoute);
 
 // need to seperate public routes and private routes eventually
 
