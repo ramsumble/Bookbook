@@ -52,7 +52,7 @@ async function searchAndSaveBooks(userId, searchTerm) {
   }
 }
 
-// function to retrieve the books in users collections
+// function to retrieve data from the bookCollection... collection
 async function getUserBookCollection(userId) {
   try {
     // we can use populate to reference documents from another collection
@@ -64,10 +64,27 @@ async function getUserBookCollection(userId) {
 
     return user.bookCollection;
   } catch (error) {
-    console.error('Error getting user book collection:', error);
+    console.error('Error getting data from bookCollection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
+// get data from the readingCollection... collection
+async function getUserreadingCollection(userId) {
+  try {
+    // we can use populate to reference documents from another collection
+    const user = await UserModel.findById(userId).populate('readingCollection'); 
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user.readingCollection;
+  } catch (error) {
+    console.error('Error getting data from readingCollection:', error);
     throw error; // Propagate the error to the caller
   }
 }
 
 
-module.exports = { searchAndSaveBooks, getUserBookCollection };
+module.exports = { searchAndSaveBooks, getUserBookCollection, getUserreadingCollection };
