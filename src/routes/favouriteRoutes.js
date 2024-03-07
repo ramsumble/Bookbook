@@ -38,6 +38,8 @@ router.post('/', async (req, res) => {
         const existingBookInDB = await BookModel.findOne({ title: bookData.title, author: bookData.author });
 
         if (existingBookInDB) {
+            console.log("book in db: ", existingBookInDB)
+            console.log("ID in db", existingBookInDB._id)
             // If the book already exists in the database, add its ID to the user's collection
             user.favourites.push(existingBookInDB._id);
         } else {
