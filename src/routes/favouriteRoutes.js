@@ -1,17 +1,18 @@
 const express = require('express');
-const router = express.Router();
 const UserModel = require('../models/userModels');
+const BookModel = require('../models/bookModels');
+const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
         const { userId, bookData } = req.body;
 
+        // Find user by id
         const user = await UserModel.findById(userId);
+
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
-        // copy same logic for collectionRoute
 
         if (!user.favourites) {
             user.favourites = [];
@@ -23,26 +24,30 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Invalid book data' });
         }
 
-        console.log('User ID:', userId);
-        console.log('Book Data:', bookData);
-        console.log('Existing Favorites:', user.favourites);
-
         // Check if the book already exists in the user's collection
-        const existingBook = user.favourites.find(bookId => bookId && bookId.equals(bookData._id));
-
-        console.log(existingBook)
+        const existingBook = user.favourites.find(bookId => bookId.equals(bookData._id));
 
         if (existingBook) {
-            return res.status(400).json({ error: 'Book already in the collection' }); // handle this with toastify later
+            return res.status(400).json({ error: 'Book already in the collection' });
         }
 
-        // Add the book to the user's favorites
-        user.favourites.push(bookData._id);
+        // Create or retrieve the book in the database
+        const existingBookInDB = await BookModel.findOne({ title: bookData.title, author: bookData.author });
+
+        if (existingBookInDB) {
+            // If the book already exists in the database, add its ID to the user's collection
+            user.favourites.push(existingBookInDB._id);
+        } else {
+            // If the book doesn't exist, create it and add its ID to the user's collection
+            const newBook = await BookModel.create(bookData);
+            user.favourites.push(newBook._id);
+        }
+
         await user.save();
 
-        res.json({ message: 'Book added to favorites successfully' });
+        res.json({ message: 'Book added to collection successfully' });
     } catch (error) {
-        console.error('Error adding book to favorites:', error);
+        console.error('Error adding book to collection:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
