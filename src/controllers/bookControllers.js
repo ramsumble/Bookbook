@@ -112,7 +112,7 @@ async function removeFromFavouritesCollection(userId, bookIdToRemove) {
     }
 
     // Remove the bookIdToRemove from the favourites array
-    user.favourites = user.favourites.filter(bookId => bookId !== bookIdToRemove);
+    user.favourites = user.favourites.filter(bookId => bookId.toString() !== bookIdToRemove.toString());
 
     // Save the updated user document
     await user.save();
