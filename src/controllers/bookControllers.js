@@ -62,7 +62,7 @@ async function getUserBookCollection(userId) {
       throw new Error('User not found');
     }
 
-    return user.bookCollection.bookId;
+    return user.bookCollection;
   } catch (error) {
     console.error('Error getting data from bookCollection:', error);
     throw error; // Propagate the error to the caller
