@@ -77,10 +77,11 @@ router.get('/', authenticateUser, async (req, res) => {
   router.delete(':bookId', authenticateUser, async (req, res) => {
     try {
       const userId = req.userId;
-      const bookIdToRemove = req.params.bookId;
+    //const bookIdToRemove = req.params.bookId;
+    const { bookData } = req.body;
   
       // Call the function from contorller
-      const result = await removeFromFavouritesCollection(userId, bookIdToRemove);
+      const result = await removeFromFavouritesCollection(userId, bookData._id);
   
       res.json(result);
     } catch (error) {
