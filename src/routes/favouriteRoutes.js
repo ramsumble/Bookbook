@@ -61,28 +61,26 @@ router.post('/', async (req, res) => {
 
 router.get('/', authenticateUser, async (req, res) => {
     try {
-      const userId = req.userId; 
-      const favourites = await getUserFavouriteCollection(userId);
-  
-      // Logging to check contents of book collection 
-      // console.log('User Book Collection:', userBookCollection);
-  
-      res.json(favourites);
-    } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
+        const userId = req.userId; 
+        const favourites = await getUserFavouriteCollection(userId);
+    
+        // Logging to check contents of book collection 
+        // console.log('User Book Collection:', userBookCollection);
+    
+        res.json(favourites);
+        } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
 
 
-  router.delete(':bookId', authenticateUser, async (req, res) => {
+  router.delete('/', authenticateUser, async (req, res) => {
     try {
         const userId = req.userId;
-    //const bookIdToRemove = req.params.bookId;
         const { bookData } = req.body;
-        console.log("full request: ", req.body)
-        console.log("book id: ", bookData._id)
-  
-      // Call the function from contorller
+        
+        console.log('Received book ID: ', bookData);
+        // Call the function from contorller
         const result = await removeFromFavouritesCollection(userId, bookData._id);
   
         res.json(result);
