@@ -86,5 +86,21 @@ async function getUserreadingCollection(userId) {
   }
 }
 
+// get data from the favourites collection
+async function getUserFavouriteCollection(userId) {
+  try {
+    // we can use populate to reference documents from another collection
+    const user = await UserModel.findById(userId).populate('favourites'); 
 
-module.exports = { searchAndSaveBooks, getUserBookCollection, getUserreadingCollection };
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user.favourites;
+  } catch (error) {
+    console.error('Error getting data from readingCollection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
+module.exports = { searchAndSaveBooks, getUserBookCollection, getUserreadingCollection, getUserFavouriteCollection };

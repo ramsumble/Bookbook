@@ -1,6 +1,7 @@
 const express = require('express');
 const UserModel = require('../models/userModels');
 const BookModel = require('../models/bookModels');
+const { authenticateUser } = require('../controllers/authControllers');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -56,5 +57,19 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+router.get('/', authenticateUser, async (req, res) => {
+    try {
+      const userId = req.userId; 
+      const favourites = await getUserFavouriteCollection(userId);
+  
+      // Logging to check contents of book collection 
+      // console.log('User Book Collection:', userBookCollection);
+  
+      res.json(favourites);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 module.exports = router;
