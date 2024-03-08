@@ -56,7 +56,7 @@ async function searchAndSaveBooks(userId, searchTerm) {
 async function getUserBookCollection(userId) {
   try {
     // we can use populate to reference documents from another collection
-    const user = await UserModel.findById(userId).populate('bookCollection.bookId'); 
+    const user = await UserModel.findById(userId).populate('bookCollection'); 
 
     if (!user) {
       throw new Error('User not found');
@@ -131,8 +131,6 @@ async function removeFromBookCollection(userId, bookIdToRemove) {
     if (!user) {
       throw new Error('User not found');
     }
-
-    const collections = ['bookCollection', 'readingCollection', 'favourites'];
 
     // Remove the bookIdToRemove from each collection
     collections.forEach(collection => {

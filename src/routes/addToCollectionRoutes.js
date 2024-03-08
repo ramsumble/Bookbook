@@ -40,12 +40,12 @@ router.post('/', async (req, res) => {
         const existingBookInDB = await BookModel.findOne({ title: bookData.title, author: bookData.author });
 
         if (existingBookInDB) {
-            // If the book already exists in the database, add its ID and isRead to the user's collection
-            user.bookCollection.push({ bookId: existingBookInDB._id, isRead: isRead || false });
+            // If the book already exists in the database, add its ID to the user's collection
+            user.bookCollection.push(existingBookInDB._id);
         } else {
-            // If the book doesn't exist, create it and add its ID and isRead to the user's collection
+            // If the book doesn't exist, create it and add its ID to the user's collection
             const newBook = await BookModel.create(bookData);
-            user.bookCollection.push({ bookId: newBook._id, isRead: isRead || false });
+            user.bookCollection.push(newBook._id);
         }
 
         await user.save();
