@@ -76,18 +76,20 @@ router.get('/', authenticateUser, async (req, res) => {
 
   router.delete(':bookId', authenticateUser, async (req, res) => {
     try {
-      const userId = req.userId;
+        const userId = req.userId;
     //const bookIdToRemove = req.params.bookId;
-    const { bookData } = req.body;
+        const { bookData } = req.body;
+        console.log("full request: ", req.body)
+        console.log("book id: ", bookData._id)
   
       // Call the function from contorller
-      const result = await removeFromFavouritesCollection(userId, bookData._id);
+        const result = await removeFromFavouritesCollection(userId, bookData._id);
   
-      res.json(result);
-    } catch (error) {
-      console.error('Error removing book from favourites collection:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
+        res.json(result);
+        } catch (error) {
+        console.error('Error removing book from favourites collection:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
 
 module.exports = router;
