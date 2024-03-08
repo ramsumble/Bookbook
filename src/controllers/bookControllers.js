@@ -103,4 +103,31 @@ async function getUserFavouriteCollection(userId) {
   }
 }
 
-module.exports = { searchAndSaveBooks, getUserBookCollection, getUserreadingCollection, getUserFavouriteCollection };
+async function removeFromFavouritesCollection(userId, bookIdToRemove) {
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Remove the bookIdToRemove from the favourites array
+    user.favourites = user.favourites.filter(bookId => bookId !== bookIdToRemove);
+
+    // Save the updated user document
+    await user.save();
+
+    return { success: true, message: 'Book removed from favourites collection successfully' };
+  } catch (error) {
+    console.error('Error removing book from favourites collection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
+module.exports = { 
+  searchAndSaveBooks, 
+  getUserBookCollection, 
+  getUserreadingCollection, 
+  getUserFavouriteCollection,
+  removeFromFavouritesCollection 
+};

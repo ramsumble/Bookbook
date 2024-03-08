@@ -2,7 +2,7 @@ const express = require('express');
 const UserModel = require('../models/userModels');
 const BookModel = require('../models/bookModels');
 const { authenticateUser } = require('../controllers/authControllers');
-const { getUserFavouriteCollection } = require('../controllers/bookControllers');
+const { getUserFavouriteCollection, removeFromFavouritesCollection } = require('../controllers/bookControllers');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -69,6 +69,22 @@ router.get('/', authenticateUser, async (req, res) => {
   
       res.json(favourites);
     } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
+  router.delete(':bookId', authenticateUser, async (req, res) => {
+    try {
+      const userId = req.userId;
+      const bookIdToRemove = req.params.bookId;
+  
+      // Call the function from contorller
+      const result = await removeFromFavouritesCollection(userId, bookIdToRemove);
+  
+      res.json(result);
+    } catch (error) {
+      console.error('Error removing book from favourites collection:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
