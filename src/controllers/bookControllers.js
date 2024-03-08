@@ -132,6 +132,8 @@ async function removeFromBookCollection(userId, bookIdToRemove) {
       throw new Error('User not found');
     }
 
+    const collections = ['bookCollection', 'readingCollection', 'favourites'];
+
     // Remove the bookIdToRemove from each collection
     collections.forEach(collection => {
       user[collection] = user[collection].filter(bookId => bookId.toString() !== bookIdToRemove.toString());
