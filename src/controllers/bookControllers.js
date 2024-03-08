@@ -6,7 +6,7 @@ const UserModel = require('../models/userModels');
 async function searchAndSaveBooks(userId, searchTerm) {
     try {
         const response = await axios.get('https://www.googleapis.com/books/v1/volumes', { 
-            params: { q: searchTerm },
+            params: { q: searchTerm, maxResults: 40 },
     });
 
     // get the book data from the response 
