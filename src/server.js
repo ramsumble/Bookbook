@@ -10,10 +10,10 @@ app.use(express.json()); //used to parse json data
 const searchBook = require('./routes/bookRoutes')
 const registerRoute = require('./routes/registerRoutes')
 const loginRoute = require('./routes/loginRoutes')
-const addBookRoute = require('./routes/addToCollectionRoutes')
+const addBookRoute = require('./routes/BookCollectionRoutes')
 const userBookRoute = require('./routes/userCollectionRoutes')
 const favRoute = require('./routes/favouriteRoutes')
-const readingRoute = require('./routes/addToReadingRoutes')
+const readingRoute = require('./routes/ReadingCollectionRoutes')
 
 // use the routes
 app.use('/books', searchBook)

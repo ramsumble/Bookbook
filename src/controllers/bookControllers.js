@@ -124,10 +124,57 @@ async function removeFromFavouritesCollection(userId, bookIdToRemove) {
   }
 }
 
+async function removeFromBookCollection(userId, bookIdToRemove) {
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const collections = ['bookCollection', 'readingCollection', 'favourites'];
+
+    // Remove the bookIdToRemove from each collection
+    collections.forEach(collection => {
+      user[collection] = user[collection].filter(bookId => bookId.toString() !== bookIdToRemove.toString());
+    });
+
+    // Save the updated user document
+    await user.save();
+
+    return { success: true, message: 'Book removed from favourites collection successfully' };
+  } catch (error) {
+    console.error('Error removing book from favourites collection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
+async function removeFromReadingCollection(userId, bookIdToRemove) {
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    user.readingCollection = user.readingCollection.filter(bookId => bookId.toString() !== bookIdToRemove.toString());
+
+    // Save the updated user document
+    await user.save();
+
+    return { success: true, message: 'Book removed from favourites collection successfully' };
+  } catch (error) {
+    console.error('Error removing book from favourites collection:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
 module.exports = { 
   searchAndSaveBooks, 
   getUserBookCollection, 
   getUserreadingCollection, 
   getUserFavouriteCollection,
-  removeFromFavouritesCollection 
+  removeFromFavouritesCollection,
+  removeFromReadingCollection,
+  removeFromBookCollection 
 };
