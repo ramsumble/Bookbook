@@ -2,6 +2,7 @@ const express = require('express');
 const UserModel = require('../models/userModels');
 const BookModel = require('../models/bookModels');
 const { removeFromBookCollection } = require('../controllers/bookControllers');
+const { authenticateUser } = require('../controllers/authControllers');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
