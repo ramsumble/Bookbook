@@ -56,7 +56,7 @@ async function searchAndSaveBooks(userId, searchTerm) {
 async function getUserBookCollection(userId) {
   try {
     // we can use populate to reference documents from another collection
-    const user = await UserModel.findById(userId).populate('bookCollection'); 
+    const user = await UserModel.findById(userId).populate('bookCollection.bookId'); 
 
     if (!user) {
       throw new Error('User not found');
