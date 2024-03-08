@@ -62,18 +62,24 @@ async function getUserBookCollection(userId) {
       throw new Error('User not found');
     }
 
-    return user.bookCollection.map(book => ({
-      bookId: book.bookId._id,
-      title: book.bookId.title,
-      author: book.bookId.author,
-      publisher: book.bookId.publisher,
-      description: book.bookId.description,
-      yearPublished: book.bookId.yearPublished,
-      genre: book.bookId.genre,
-      pageCount: book.bookId.pageCount,
-      image: book.bookId.image,
-      isRead: book.isRead || false,
-    }));
+    return user.bookCollection.map(book => {
+      if (!book.bookId) {
+        return {}; // Return an empty object if book.bookId is undefined
+      }
+
+      return {
+        bookId: book.bookId._id,
+        title: book.bookId.title,
+        author: book.bookId.author,
+        publisher: book.bookId.publisher,
+        description: book.bookId.description,
+        yearPublished: book.bookId.yearPublished,
+        genre: book.bookId.genre,
+        pageCount: book.bookId.pageCount,
+        image: book.bookId.image,
+        isRead: book.isRead || false,
+      };
+    });
 
   } catch (error) {
     console.error('Error getting data from bookCollection:', error);
