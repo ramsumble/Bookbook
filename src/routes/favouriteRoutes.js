@@ -76,6 +76,7 @@ router.get('/', authenticateUser, async (req, res) => {
 
   router.delete('/', authenticateUser, async (req, res) => {
     try {
+        console.log('Token:~~~~~~~~~~~~~~ ', req.headers.authorization);
         const userId = req.userId;
         const { bookData } = req.body;
         
